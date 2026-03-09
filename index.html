@@ -2,10 +2,11 @@
 <html lang="ja">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>社会科AI先生</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>社会AI先生</title>
 
 <style>
 
@@ -17,6 +18,11 @@ padding:20px;
 }
 
 h1{
+margin-bottom:10px;
+}
+
+.subtitle{
+color:#666;
 margin-bottom:20px;
 }
 
@@ -40,11 +46,10 @@ height:200px;
 margin:20px auto;
 max-width:500px;
 box-shadow:0 4px 10px rgba(0,0,0,0.1);
-overflow:auto;
 }
 
 input{
-width:60%;
+width:65%;
 padding:10px;
 font-size:16px;
 border-radius:8px;
@@ -65,31 +70,40 @@ button:active{
 background:#2b7bd6;
 }
 
+.examples{
+margin-top:20px;
+font-size:14px;
+color:#555;
+line-height:1.7;
+}
+
 </style>
 
 </head>
 
 <body>
 
-<h1>5年社会AI先生</h1>
+<h1>社会AI先生</h1>
 
-<!-- キャラクター -->
+<div class="subtitle">
+5・6年社会の質問をしてみよう
+</div>
 
 <svg id="teacher" viewBox="0 0 200 200">
 
 <circle cx="100" cy="60" r="40" fill="#ffd9b3"/>
-
 <circle cx="85" cy="55" r="5"/>
 <circle cx="115" cy="55" r="5"/>
-
 <path d="M85 75 Q100 85 115 75" stroke="black" fill="none"/>
-
 <rect x="60" y="100" width="80" height="70" fill="#5fa8d3"/>
 
 </svg>
 
 <div id="chat">
-こんにちは。社会科の質問をしてね。
+
+こんにちは。  
+社会科の質問をしてね。
+
 </div>
 
 <br>
@@ -98,31 +112,63 @@ background:#2b7bd6;
 
 <button onclick="ask()">質問</button>
 
+<div class="examples">
+
+例
+
+<br><br>
+
+🌾 地理  
+米づくりはどこで多い？  
+日本の気候の特色は？
+
+<br><br>
+
+🏭 産業  
+日本の三大工業地帯は？  
+自動車工業が盛んな理由は？
+
+<br><br>
+
+⏳ 歴史  
+聖徳太子は何をした人？  
+鎌倉幕府はなぜできた？
+
+<br><br>
+
+🏛 公民  
+日本の選挙のしくみは？  
+税金は何に使われている？
+
+</div>
+
 <script>
 
 function ask(){
 
-let q = document.getElementById("q").value
+let q=document.getElementById("q").value
 
 if(q===""){
-alert("質問を書いてね")
+alert("質問を書いてください")
 return
 }
 
-let prompt =
-"あなたは小学校5・6年生の社会科の先生です。" +
-"小学生でも分かる言葉で説明してください。" +
-"質問：" + q
+let prompt=
+"あなたは小学校5年生と6年生の社会科の先生です。\n"+
+"小学生でも分かる言葉で説明してください。\n"+
+"できるだけ簡単に説明してください。\n"+
+"質問："+q
 
-let url =
-"https://chat.openai.com/?q=" +
-encodeURIComponent(prompt)
+navigator.clipboard.writeText(prompt)
 
-window.open(url,"_blank")
+window.open("https://chat.openai.com","_blank")
+
+alert("質問をコピーしました。ChatGPTで貼り付けて送信してください。")
 
 }
 
 </script>
 
 </body>
+
 </html>
