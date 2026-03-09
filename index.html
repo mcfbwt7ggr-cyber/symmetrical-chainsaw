@@ -89,6 +89,25 @@ border-radius:8px;
 
 <script>
 
+function ask(){
+
+let q = document.getElementById("q").value
+
+let prompt =
+"あなたは小学校5・6年生の社会科の先生です。" +
+"小学生でも分かる言葉で説明してください。" +
+"質問：" + q
+
+let url =
+"https://chat.openai.com/?q=" +
+encodeURIComponent(prompt)
+
+window.open(url,"_blank")
+
+}
+
+</script>
+
 function say(t){
 let c=document.getElementById("chat")
 c.innerHTML+="<p>"+t+"</p>"
