@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>社会科AI先生</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+background:#eef6ff;
+text-align:center;
+padding:20px;
+}
+
+#teacher{
+width:170px;
+margin:auto;
+animation:float 3s infinite ease-in-out;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-10px)}
+100%{transform:translateY(0)}
+}
+
+.eye{
+animation:blink 4s infinite;
+}
+
+@keyframes blink{
+0%,90%,100%{transform:scaleY(1)}
+95%{transform:scaleY(0.1)}
+}
+
+#chat{
+background:white;
+height:320px;
+overflow:auto;
+border-radius:12px;
+padding:12px;
+margin:15px 0;
+font-size:18px;
+}
+
+input{
+width:70%;
+padding:12px;
+font-size:18px;
+}
+
+button{
+padding:12px;
+font-size:18px;
+background:#4aa3df;
+border:none;
+color:white;
+border-radius:8px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>5年社会AI先生</h2>
+
+<!-- キャラクター -->
+
+<svg id="teacher" viewBox="0 0 200 200">
+
+<circle cx="100" cy="60" r="40" fill="#ffd9b3"/>
+
+<circle class="eye" cx="85" cy="55" r="5"/>
+<circle class="eye" cx="115" cy="55" r="5"/>
+
+<path d="M85 75 Q100 85 115 75" stroke="black" fill="none"/>
+
+<rect x="60" y="100" width="80" height="70" fill="#4aa3df"/>
+
+</svg>
+
+<div id="chat"></div>
+
+<input id="q" placeholder="社会科の質問を書いてね">
+<button onclick="ask()">質問</button>
+
+<script>
+
+function say(t){
+let c=document.getElementById("chat")
+c.innerHTML+="<p>"+t+"</p>"
+c.scrollTop=c.scrollHeight
+}
+
+async function ask(){
+
+let q=document.getElementById("q").value
+
+say("あなた："+q)
+
+let response = await fetch("https://api.openai.com/v1/chat/completions",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer YOUR_API_KEY"
+},
+
+body:JSON.stringify({
+
+model:"gpt-4o-mini",
+
+messages:[
+{
+role:"system",
+content:"あなたは小学校5年生の社会科の先生です。小学生でも分かる言葉で説明してください。"
+},
+{
+role:"user",
+content:q
+}
+]
+
+})
+
+})
+
+let data=await response.json()
+
+let answer=data.choices[0].message.content
+
+say("先生："+answer)
+
+document.getElementById("q").value=""
+
+}
+
+say("こんにちは。社会科の質問をしてね。")
+
+</script>
+
+</body>
+</html>
