@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>社会科AI先生</title>
 
 <style>
@@ -12,6 +14,10 @@ font-family:sans-serif;
 background:#eef6ff;
 text-align:center;
 padding:20px;
+}
+
+h1{
+margin-bottom:20px;
 }
 
 #teacher{
@@ -26,46 +32,46 @@ animation:float 3s infinite ease-in-out;
 100%{transform:translateY(0)}
 }
 
-.eye{
-animation:blink 4s infinite;
-}
-
-@keyframes blink{
-0%,90%,100%{transform:scaleY(1)}
-95%{transform:scaleY(0.1)}
-}
-
 #chat{
 background:white;
-height:320px;
+border-radius:15px;
+padding:20px;
+height:200px;
+margin:20px auto;
+max-width:500px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
 overflow:auto;
-border-radius:12px;
-padding:12px;
-margin:15px 0;
-font-size:18px;
 }
 
 input{
-width:70%;
-padding:12px;
-font-size:18px;
+width:60%;
+padding:10px;
+font-size:16px;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
 button{
-padding:12px;
-font-size:18px;
-background:#4aa3df;
+padding:10px 20px;
+font-size:16px;
 border:none;
-color:white;
 border-radius:8px;
+background:#4da3ff;
+color:white;
+margin-left:10px;
+}
+
+button:active{
+background:#2b7bd6;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<h2>5年社会AI先生</h2>
+<h1>5年社会AI先生</h1>
 
 <!-- キャラクター -->
 
@@ -73,18 +79,23 @@ border-radius:8px;
 
 <circle cx="100" cy="60" r="40" fill="#ffd9b3"/>
 
-<circle class="eye" cx="85" cy="55" r="5"/>
-<circle class="eye" cx="115" cy="55" r="5"/>
+<circle cx="85" cy="55" r="5"/>
+<circle cx="115" cy="55" r="5"/>
 
 <path d="M85 75 Q100 85 115 75" stroke="black" fill="none"/>
 
-<rect x="60" y="100" width="80" height="70" fill="#4aa3df"/>
+<rect x="60" y="100" width="80" height="70" fill="#5fa8d3"/>
 
 </svg>
 
-<div id="chat"></div>
+<div id="chat">
+こんにちは。社会科の質問をしてね。
+</div>
 
-<input id="q" placeholder="社会科の質問を書いてね" />
+<br>
+
+<input id="q" placeholder="社会科の質問を書いてね">
+
 <button onclick="ask()">質問</button>
 
 <script>
@@ -92,6 +103,11 @@ border-radius:8px;
 function ask(){
 
 let q = document.getElementById("q").value
+
+if(q===""){
+alert("質問を書いてね")
+return
+}
 
 let prompt =
 "あなたは小学校5・6年生の社会科の先生です。" +
@@ -107,75 +123,6 @@ window.open(url,"_blank")
 }
 
 </script>
-
-function say(t){
-let c=document.getElementById("chat")
-c.innerHTML+="<p>"+t+"</p>"
-c.scrollTop=c.scrollHeight
-}
-
-async function ask(){
-
-let q=document.getElementById("q").value
-
-say("あなた："+q)
-
-let response = await fetch("https://api.openai.com/v1/chat/completions",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json",
-"Authorization":"Bearer YOUR_API_KEY"
-},
-
-body:JSON.stringify({
-
-model:"gpt-4o-mini",
-
-messages:[
-{
-role:"system",
-content:"あなたは小学校5年生の社会科の先生です。小学生でも分かる言葉で説明してください。"
-},
-{
-role:"user",
-content:q
-}
-]
-
-})
-
-})
-
-let data=await response.json()
-
-let answer=data.choices[0].message.content
-
-say("先生："+answer)
-
-document.getElementById("q").value=""
-
-}
-
-say("こんにちは。社会科の質問をしてね。")
-
-function ask(){
-
-let q=document.getElementById("q").value
-
-let prompt =
-"あなたは小学校5・6年生の社会科の先生です。" +
-"小学生でも分かる言葉で説明してください。" +
-"質問：" + q
-
-let url =
-"https://chat.openai.com/?q=" +
-encodeURIComponent(prompt)
-
-window.open(url,"_blank")
-
-}>
 
 </body>
 </html>
