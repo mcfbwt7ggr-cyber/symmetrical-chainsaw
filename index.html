@@ -2,7 +2,6 @@
 <html lang="ja">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -21,11 +20,6 @@ h1{
 margin-bottom:10px;
 }
 
-.subtitle{
-color:#666;
-margin-bottom:20px;
-}
-
 #teacher{
 width:170px;
 margin:auto;
@@ -42,16 +36,16 @@ animation:float 3s infinite ease-in-out;
 background:white;
 border-radius:15px;
 padding:20px;
-height:200px;
 margin:20px auto;
 max-width:500px;
 box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-input{
-width:65%;
-padding:10px;
+textarea{
+width:90%;
+height:120px;
 font-size:16px;
+padding:10px;
 border-radius:8px;
 border:1px solid #ccc;
 }
@@ -63,18 +57,7 @@ border:none;
 border-radius:8px;
 background:#4da3ff;
 color:white;
-margin-left:10px;
-}
-
-button:active{
-background:#2b7bd6;
-}
-
-.examples{
-margin-top:20px;
-font-size:14px;
-color:#555;
-line-height:1.7;
+margin-top:10px;
 }
 
 </style>
@@ -84,10 +67,6 @@ line-height:1.7;
 <body>
 
 <h1>社会AI先生</h1>
-
-<div class="subtitle">
-5・6年社会の質問をしてみよう
-</div>
 
 <svg id="teacher" viewBox="0 0 200 200">
 
@@ -101,8 +80,9 @@ line-height:1.7;
 
 <div id="chat">
 
-こんにちは。  
-社会科の質問をしてね。
+① 下に質問を書きます  
+② 「質問を作る」を押します  
+③ ChatGPTに貼り付けます
 
 </div>
 
@@ -110,41 +90,17 @@ line-height:1.7;
 
 <input id="q" placeholder="社会科の質問を書いてね">
 
-<button onclick="ask()">質問</button>
+<br>
 
-<div class="examples">
-
-例
+<button onclick="makeQuestion()">質問を作る</button>
 
 <br><br>
 
-🌾 地理  
-米づくりはどこで多い？  
-日本の気候の特色は？
-
-<br><br>
-
-🏭 産業  
-日本の三大工業地帯は？  
-自動車工業が盛んな理由は？
-
-<br><br>
-
-⏳ 歴史  
-聖徳太子は何をした人？  
-鎌倉幕府はなぜできた？
-
-<br><br>
-
-🏛 公民  
-日本の選挙のしくみは？  
-税金は何に使われている？
-
-</div>
+<textarea id="result" placeholder="ここに質問文が作られます"></textarea>
 
 <script>
 
-function ask(){
+function makeQuestion(){
 
 let q=document.getElementById("q").value
 
@@ -153,17 +109,12 @@ alert("質問を書いてください")
 return
 }
 
-let prompt=
-"あなたは小学校5年生と6年生の社会科の先生です。\n"+
+let text=
+"あなたは小学校5・6年生の社会科の先生です。\n"+
 "小学生でも分かる言葉で説明してください。\n"+
-"できるだけ簡単に説明してください。\n"+
 "質問："+q
 
-navigator.clipboard.writeText(prompt)
-
-window.open("https://chat.openai.com","_blank")
-
-alert("質問をコピーしました。ChatGPTで貼り付けて送信してください。")
+document.getElementById("result").value=text
 
 }
 
